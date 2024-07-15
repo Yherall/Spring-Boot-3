@@ -2,7 +2,6 @@ package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
-import med.voll.api.domain.paciente.Paciente;
 import med.voll.api.domain.paciente.PacienteRepository;
 import med.voll.api.infra.errores.ValdacionDeIntegridad;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class AgendaDeConsultaService {
     @Autowired
     private ConsultaRepository consultaRepository;
 
-    public void agendar(DatosAgendarConsultar datos){
+    public void agendar(DatosAgendarConsulta datos){
         if (pacienteRepository.findById(datos.idPaciente()).isPresent()){
             throw new ValdacionDeIntegridad("Este ID Para El Paciente No Fue Encontrado");
         }
@@ -35,7 +34,7 @@ public class AgendaDeConsultaService {
         consultaRepository.save(consulta);
     }
 
-    private Medico seleccionarMedico(DatosAgendarConsultar datos) {
+    private Medico seleccionarMedico(DatosAgendarConsulta datos) {
         if (datos.idMedico() != null){
             return medicoRepository.getReferenceById(datos.idMedico());
         }
