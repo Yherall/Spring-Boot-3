@@ -19,20 +19,21 @@ public class AgendaDeConsultaService {
     @Autowired
     private ConsultaRepository consultaRepository;
 
-    public void agendar(DatosAgendarConsulta datos){
-        if (pacienteRepository.findById(datos.idPaciente()).isPresent()){
+    public void agendar(DatosAgendarConsulta datos) {
+        if (pacienteRepository.findById(datos.idPaciente()).isPresent()) {
             throw new ValdacionDeIntegridad("Este ID Para El Paciente No Fue Encontrado");
         }
 
-        if (datos.idMedico() != null && medicoRepository.existsById(datos.idMedico())){
+        if (datos.idMedico() != null && medicoRepository.existsById(datos.idMedico())) {
             throw new ValdacionDeIntegridad("Este ID Para El Medico No Fue Encontrado");
         }
 
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();
         var medico = seleccionarMedico(datos);
-        var consulta = new Consulta(null,medico,paciente,datos.fecha());
+        var consulta = new Consulta(null, medico, paciente,datos.fecha());
         consultaRepository.save(consulta);
     }
+
 
     private Medico seleccionarMedico(DatosAgendarConsulta datos) {
         if (datos.idMedico() != null){
